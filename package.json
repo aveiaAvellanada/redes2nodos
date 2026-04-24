@@ -1,0 +1,13 @@
+{
+  "name": "redes2nodos",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Nodo Travesías · Red Comunitaria",
+  "scripts": {
+    "start": "npx serve .",
+    "build": "echo 'Static site, no build needed'"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
