@@ -465,12 +465,6 @@ body {
 .grid-spacious { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
 .grid-compact  { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; }
 
-@media (max-width: 600px) {
-  .grid-spacious, .grid-compact {
-    grid-template-columns: 1fr;
-  }
-}
-
 .card {
   position: relative;
   display: flex;
@@ -921,8 +915,8 @@ body {
   .detail-panel { padding: 28px 22px 44px; width: 100vw; }
   .detail-hero  { flex-direction: column; align-items: flex-start; }
   .detail-glyph { width: 80px; height: 80px; }
-  .grid-spacious { grid-template-columns: repeat(2, 1fr); }
-  .grid-compact  { grid-template-columns: repeat(2, 1fr); }
+  .grid-spacious { grid-template-columns: 1fr; }
+  .grid-compact  { grid-template-columns: 1fr; }
   .detail-stats  { grid-template-columns: 1fr 1fr; }
   .welcome-stats { flex-wrap: wrap; }
   .wstat { min-width: calc(50% - 7px); }
