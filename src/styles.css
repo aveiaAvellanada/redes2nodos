@@ -465,6 +465,12 @@ body {
 .grid-spacious { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
 .grid-compact  { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; }
 
+@media (max-width: 600px) {
+  .grid-spacious, .grid-compact {
+    grid-template-columns: 1fr;
+  }
+}
+
 .card {
   position: relative;
   display: flex;
@@ -566,7 +572,6 @@ body {
   align-items: center;
   margin-top: 16px;
   padding-top: 12px;
-  border-top: 2px dashed var(--clay-border);
 }
 .card-size {
   font-size: 10.5px;

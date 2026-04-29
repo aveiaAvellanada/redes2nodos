@@ -127,10 +127,13 @@ const Glyph = ({ name, color = 'currentColor', accent, size = 48 }) => {
     case 'signal':
       return (
         <G size={size}>
-          <path d="M24 38 A14 14 0 0 0 10 24" stroke={c} strokeWidth="2" strokeLinecap="round" />
-          <path d="M24 38 A22 22 0 0 0 2 16" stroke={c} strokeWidth="2" strokeLinecap="round" opacity="0.5" />
-          <path d="M24 38 A6 6 0 0 0 18 32" stroke={a} strokeWidth="2" strokeLinecap="round" />
-          <circle cx="24" cy="38" r="3" fill={c} />
+          <line x1="24" y1="12" x2="24" y2="40" stroke={c} strokeWidth="2" strokeLinecap="round" />
+          <path d="M14 40 L24 16 L34 40" stroke={c} strokeWidth="2" strokeLinejoin="round" />
+          <line x1="16" y1="32" x2="32" y2="32" stroke={c} strokeWidth="2" />
+          <line x1="20" y1="24" x2="28" y2="24" stroke={c} strokeWidth="2" />
+          <circle cx="24" cy="10" r="3" fill={a} />
+          <path d="M18 10 A6 6 0 0 0 14 14" stroke={c} strokeWidth="2" strokeLinecap="round" />
+          <path d="M30 10 A6 6 0 0 1 34 14" stroke={c} strokeWidth="2" strokeLinecap="round" />
         </G>
       );
     case 'gear':
