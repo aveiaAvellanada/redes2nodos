@@ -6,28 +6,28 @@ const { useState, useEffect, useRef } = React;
 // TWEAK DEFAULTS — persisted via EDITMODE block
 // =============================================================================
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "theme": "earthen",
+  "theme": "claro",
   "density": "spacious",
   "showTicker": true,
   "nodeName": "TRAVESÍAS"
 }/*EDITMODE-END*/;
 
 const THEMES = {
-  earthen: {
-    name: 'Earthen',
-    '--bg':           'oklch(94% 0.028 82)',
-    '--paper':        'oklch(99% 0.012 82)',
-    '--ink':          'oklch(20% 0.030 60)',
-    '--ink-soft':     'oklch(40% 0.025 65)',
-    '--ink-faint':    'oklch(60% 0.020 70)',
-    '--line':         'oklch(83% 0.030 80)',
-    '--forest':       'oklch(42% 0.120 145)',
-    '--forest-deep':  'oklch(30% 0.090 145)',
-    '--terracotta':   'oklch(58% 0.170 48)',
-    '--olive':        'oklch(65% 0.080 115)',
+  claro: {
+    name: 'Claro',
+    '--bg':           '#F5F5F5',
+    '--paper':        '#FFFFFF',
+    '--ink':          '#0F422C',
+    '--ink-soft':     'color-mix(in oklch, #0F422C 65%, transparent)',
+    '--ink-faint':    'color-mix(in oklch, #0F422C 40%, transparent)',
+    '--line':         'color-mix(in oklch, #0F422C 15%, transparent)',
+    '--forest':       '#34AF72',
+    '--forest-deep':  '#208251',
+    '--terracotta':   '#208251',
+    '--olive':        '#34AF72',
     '--alert':        'oklch(53% 0.180 38)',
-    '--card':         'oklch(99% 0.010 82)',
-    '--clay-border':  'oklch(78% 0.045 78)',
+    '--card':         '#FFFFFF',
+    '--clay-border':  'color-mix(in oklch, #0F422C 12%, transparent)',
   },
   kraft: {
     name: 'Kraft',
@@ -64,14 +64,14 @@ const THEMES = {
 };
 
 function applyTheme(themeKey) {
-  const theme = THEMES[themeKey] || THEMES.earthen;
+  const theme = THEMES[themeKey] || THEMES.claro;
   const root = document.documentElement;
   Object.entries(theme).forEach(([k, v]) => {
     if (k.startsWith('--')) root.style.setProperty(k, v);
   });
 }
 
-const THEME_ORDER = ['earthen', 'kraft', 'tinta'];
+const THEME_ORDER = ['claro', 'kraft', 'tinta'];
 
 // =============================================================================
 // Sub-components
@@ -288,7 +288,7 @@ const TweaksUI = ({ tweaks, setTweak }) => (
         value={tweaks.theme}
         onChange={(v) => setTweak('theme', v)}
         options={[
-          { value: 'earthen', label: 'Earthen — crema + bosque' },
+          { value: 'claro', label: 'Claro — blancos y verdes' },
           { value: 'kraft', label: 'Kraft — papel campesino' },
           { value: 'tinta', label: 'Tinta — modo oscuro' },
         ]}
@@ -318,9 +318,142 @@ const TweaksUI = ({ tweaks, setTweak }) => (
 // Root App
 // =============================================================================
 
+const BottomNav = ({ currentTab, onTabChange }) => {
+  const tabs = [
+    { id: 'inicio', label: 'Inicio', icon: 'home' },
+    { id: 'servicios', label: 'Servicios', icon: 'grid' },
+    { id: 'red', label: 'Red', icon: 'signal' },
+    { id: 'ajustes', label: 'Ajustes', icon: 'gear' }
+  ];
+
+  return (
+    <nav className="bottom-nav">
+      {tabs.map(tab => (
+        <button 
+          key={tab.id}
+          className={`bottom-nav-item ${currentTab === tab.id ? 'active' : ''}`}
+          onClick={() => onTabChange(tab.id)}
+          aria-label={tab.label}
+        >
+          <div className="bottom-nav-icon">
+            <Glyph name={tab.icon} size={28} color="currentColor" />
+          </div>
+          <span>{tab.label}</span>
+        </button>
+      ))}
+    </nav>
+  );
+};
+
+const InicioTab = ({ tweaks, alertsService }) => (
+  <div className="tab-content">
+    <Masthead nodeName={tweaks.nodeName} />
+
+    <section className="welcome">
+      <div className="welcome-body">
+        <div className="mono welcome-kicker">◎ BIENVENIDO</div>
+        <h2 className="welcome-title">
+          Esta es la red que <em>tejemos</em> entre vecinos.
+        </h2>
+        <p className="welcome-sub">
+          11 servicios que funcionan en el territorio, aún cuando se cae el internet. Explora en la pestaña de Servicios.
+        </p>
+      </div>
+    </section>
+
+    <AlertsBanner alerts={alertsService} />
+
+    <section className="quote-block">
+      <div className="mono quote-kicker">§ 02 · DEL TERRITORIO</div>
+      <blockquote>
+        “Antes había que bajar al pueblo para mandar un recado. Ahora lo escribimos aquí y <em>todos</em> los vecinos se enteran.”
+      </blockquote>
+      <div className="quote-by">— Doña Evelia, Vereda Alto Bonito</div>
+    </section>
+  </div>
+);
+
+const ServiciosTab = ({ density, onOpen }) => (
+  <div className="tab-content" style={{ paddingTop: '24px' }}>
+    <section className="grid-section">
+      <div className="section-head">
+        <div className="mono section-kicker">§ 01</div>
+        <h3 className="section-title-big">Servicios del nodo</h3>
+        <div className="section-rule"/>
+        <div className="mono section-count-big">{SERVICES.length} módulos</div>
+      </div>
+
+      <div className={`grid grid-${density}`}>
+        {SERVICES.map((s) => (
+          <ServiceCard key={s.id} service={s} onOpen={onOpen} density={density} />
+        ))}
+      </div>
+    </section>
+  </div>
+);
+
+const RedTab = () => (
+  <div className="tab-content" style={{ paddingTop: '24px' }}>
+    <div className="section-head">
+      <div className="mono section-kicker">ESTADO</div>
+      <h3 className="section-title-big">La Red Comunitaria</h3>
+      <div className="section-rule"/>
+    </div>
+
+    <div className="welcome-stats" style={{ marginBottom: '32px' }}>
+      <div className="wstat">
+        <div className="wstat-num">43</div>
+        <div className="mono wstat-label">EN LÍNEA</div>
+      </div>
+      <div className="wstat">
+        <div className="wstat-num">7</div>
+        <div className="mono wstat-label">VEREDAS</div>
+      </div>
+      <div className="wstat">
+        <div className="wstat-num">11</div>
+        <div className="mono wstat-label">MÓDULOS</div>
+      </div>
+    </div>
+    
+    <Footer />
+  </div>
+);
+
+const AjustesTab = ({ tweaks, setTweak }) => (
+  <div className="tab-content" style={{ paddingTop: '24px' }}>
+    <div className="section-head">
+      <div className="mono section-kicker">CONFIG</div>
+      <h3 className="section-title-big">Ajustes</h3>
+      <div className="section-rule"/>
+    </div>
+    
+    <div className="card" style={{ marginBottom: '32px', minHeight: 'auto', padding: '16px 20px' }}>
+      <div className="card-body" style={{ marginTop: 0 }}>
+        <div className="card-name" style={{ fontSize: '18px', marginBottom: '8px' }}>Mi Cuenta</div>
+        <div className="card-tagline" style={{ marginBottom: '16px' }}>Inicia sesión para gestionar el nodo o publicar en servicios.</div>
+        <button className="btn btn-primary" style={{ width: '100%' }}>Iniciar Sesión</button>
+      </div>
+    </div>
+
+    <TweaksUI tweaks={tweaks} setTweak={setTweak} />
+
+    <div style={{ marginTop: '48px', marginBottom: '24px', display: 'flex', justifyContent: 'space-around', opacity: 0.6 }}>
+      <div style={{ textAlign: 'center' }}>
+        <Glyph name="university" size={48} color="var(--ink-soft)" />
+        <div className="mono" style={{ fontSize: '10px', marginTop: '8px', letterSpacing: '0.1em' }}>UNIVERSIDAD</div>
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <Glyph name="group" size={48} color="var(--ink-soft)" />
+        <div className="mono" style={{ fontSize: '10px', marginTop: '8px', letterSpacing: '0.1em' }}>SEMILLERO</div>
+      </div>
+    </div>
+  </div>
+);
+
 const App = () => {
   const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [activeService, setActiveService] = useState(null);
+  const [currentTab, setCurrentTab] = useState('inicio');
 
   const cycleTheme = () => {
     const idx = THEME_ORDER.indexOf(tweaks.theme);
@@ -345,69 +478,24 @@ const App = () => {
 
   return (
     <div className="app" data-density={density}>
-      <ThemeSwitcher currentTheme={tweaks.theme} onSwitch={cycleTheme} />
+      {/* Top Status Indicators */}
+      {currentTab !== 'ajustes' && <ThemeSwitcher currentTheme={tweaks.theme} onSwitch={cycleTheme} />}
       <StatusStrip nodeName={tweaks.nodeName} />
       {tweaks.showTicker && <Ticker items={TICKER} />}
 
+      {/* Main Content Area */}
       <main className="container">
-        <Masthead nodeName={tweaks.nodeName} />
-
-        <section className="welcome">
-          <div className="welcome-body">
-            <div className="mono welcome-kicker">◎ BIENVENIDO</div>
-            <h2 className="welcome-title">
-              Esta es la red que <em>tejemos</em> entre vecinos.
-            </h2>
-            <p className="welcome-sub">
-              11 servicios que funcionan en el territorio, aún cuando se cae el internet. Pulsa cualquier tarjeta para entrar.
-            </p>
-          </div>
-          <div className="welcome-stats">
-            <div className="wstat">
-              <div className="wstat-num">11</div>
-              <div className="mono wstat-label">MÓDULOS</div>
-            </div>
-            <div className="wstat">
-              <div className="wstat-num">43</div>
-              <div className="mono wstat-label">EN LÍNEA</div>
-            </div>
-            <div className="wstat">
-              <div className="wstat-num">7</div>
-              <div className="mono wstat-label">VEREDAS</div>
-            </div>
-          </div>
-        </section>
-
-        <AlertsBanner alerts={alertsService} />
-
-        <section className="grid-section">
-          <div className="section-head">
-            <div className="mono section-kicker">§ 01</div>
-            <h3 className="section-title-big">Servicios del nodo</h3>
-            <div className="section-rule"/>
-            <div className="mono section-count-big">{SERVICES.length} módulos</div>
-          </div>
-
-          <div className={`grid grid-${density}`}>
-            {SERVICES.map((s) => (
-              <ServiceCard key={s.id} service={s} onOpen={setActiveService} density={density} />
-            ))}
-          </div>
-        </section>
-
-        <section className="quote-block">
-          <div className="mono quote-kicker">§ 02 · DEL TERRITORIO</div>
-          <blockquote>
-            “Antes había que bajar al pueblo para mandar un recado. Ahora lo escribimos aquí y <em>todos</em> los vecinos se enteran.”
-          </blockquote>
-          <div className="quote-by">— Doña Evelia, Vereda Alto Bonito</div>
-        </section>
-
-        <Footer />
+        {currentTab === 'inicio' && <InicioTab tweaks={tweaks} alertsService={alertsService} />}
+        {currentTab === 'servicios' && <ServiciosTab density={density} onOpen={setActiveService} />}
+        {currentTab === 'red' && <RedTab />}
+        {currentTab === 'ajustes' && <AjustesTab tweaks={tweaks} setTweak={setTweak} />}
       </main>
 
+      {/* Overlays */}
       <ServiceDetail service={activeService} onClose={() => setActiveService(null)} />
-      <TweaksUI tweaks={tweaks} setTweak={setTweak} />
+      
+      {/* Bottom Navigation */}
+      <BottomNav currentTab={currentTab} onTabChange={setCurrentTab} />
     </div>
   );
 };

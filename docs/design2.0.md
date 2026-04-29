@@ -44,7 +44,7 @@ necesito que tenga un nav inferior que tenga Inicio | Servicios | Red | ajustes
 
 en el menú apareceran cosas como el clima alertas y notifaciones en servicios pues todos los servicios como cardas que despeus tendrán un apuntador a un microservicio, tambien necesita en ajustes la opcion del login, claro por supuesto necesita un login, ademas necesita agregar dos logos, uno es de la universidad quien patrociona y otro el semillero encargados, anetonces deja espacio para poner los iconos, luego yo reemplazo lo que está ahí po las iconos reales 
 
-
+recuerda, lo mas simble y menos saturado posible visualmente primero, es cellphone first, y tiene que verse bien en una pantalla pequeña y con baja iluminacion, necesito que tenga fuentes claras y grandes, que se vea bien en la luz del sol y en la noche por igual, es para personas mayores la mayoria de los usuarios, personas con vision que no es de las mejores,  cra un tema claro y oscuro por defecto en configuraciones, con un selector o algo por el estilo claro, ademas de la accesibilidad para los que tengan baja vision, y que tenga un lenguaje sencillo
 
 
 

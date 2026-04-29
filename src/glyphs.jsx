@@ -108,6 +108,59 @@ const Glyph = ({ name, color = 'currentColor', accent, size = 48 }) => {
           <path d="M18 16 V 12 C 18 8 21 6 24 6 C 27 6 30 8 30 12 V 16" stroke={c} strokeWidth="2" strokeLinecap="round" />
         </G>
       );
+    case 'home':
+      return (
+        <G size={size}>
+          <path d="M6 24 L24 8 L42 24 V42 H6 Z" stroke={c} strokeWidth="2" strokeLinejoin="round" fill={a} fillOpacity="0.1" />
+          <path d="M18 42 V28 H30 V42" stroke={c} strokeWidth="2" strokeLinejoin="round" />
+        </G>
+      );
+    case 'grid':
+      return (
+        <G size={size}>
+          <rect x="8" y="8" width="12" height="12" rx="2" stroke={c} strokeWidth="2" />
+          <rect x="28" y="8" width="12" height="12" rx="2" stroke={c} strokeWidth="2" fill={a} fillOpacity="0.3" />
+          <rect x="8" y="28" width="12" height="12" rx="2" stroke={c} strokeWidth="2" fill={a} fillOpacity="0.3" />
+          <rect x="28" y="28" width="12" height="12" rx="2" stroke={c} strokeWidth="2" />
+        </G>
+      );
+    case 'signal':
+      return (
+        <G size={size}>
+          <path d="M24 38 A14 14 0 0 0 10 24" stroke={c} strokeWidth="2" strokeLinecap="round" />
+          <path d="M24 38 A22 22 0 0 0 2 16" stroke={c} strokeWidth="2" strokeLinecap="round" opacity="0.5" />
+          <path d="M24 38 A6 6 0 0 0 18 32" stroke={a} strokeWidth="2" strokeLinecap="round" />
+          <circle cx="24" cy="38" r="3" fill={c} />
+        </G>
+      );
+    case 'gear':
+      return (
+        <G size={size}>
+          <circle cx="24" cy="24" r="8" stroke={c} strokeWidth="2" />
+          <path d="M24 8 V12 M24 36 V40 M8 24 H12 M36 24 H40 M12.7 12.7 L15.5 15.5 M32.5 32.5 L35.3 35.3 M12.7 35.3 L15.5 32.5 M32.5 15.5 L35.3 12.7" stroke={c} strokeWidth="2" strokeLinecap="round" />
+          <circle cx="24" cy="24" r="3" fill={a} />
+        </G>
+      );
+    case 'university':
+      return (
+        <G size={size}>
+          <path d="M4 24 L24 10 L44 24" stroke={c} strokeWidth="2" strokeLinejoin="round" />
+          <rect x="10" y="24" width="6" height="16" stroke={c} strokeWidth="2" />
+          <rect x="32" y="24" width="6" height="16" stroke={c} strokeWidth="2" />
+          <path d="M4 40 H44" stroke={c} strokeWidth="2" strokeLinecap="round" />
+        </G>
+      );
+    case 'group':
+      return (
+        <G size={size}>
+          <circle cx="24" cy="16" r="6" stroke={c} strokeWidth="2" />
+          <path d="M10 40 C10 32 16 26 24 26 C32 26 38 32 38 40" stroke={c} strokeWidth="2" strokeLinecap="round" />
+          <circle cx="12" cy="20" r="4" stroke={c} strokeWidth="1.5" />
+          <path d="M4 36 C4 32 8 28 12 28" stroke={c} strokeWidth="1.5" strokeLinecap="round" />
+          <circle cx="36" cy="20" r="4" stroke={c} strokeWidth="1.5" />
+          <path d="M44 36 C44 32 40 28 36 28" stroke={c} strokeWidth="1.5" strokeLinecap="round" />
+        </G>
+      );
     default:
       return <G size={size}><rect x="8" y="8" width="32" height="32" stroke={c} strokeWidth="2" /></G>;
   }
